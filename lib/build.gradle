@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+apply plugin: 'me.tatarka.retrolambda'
+
+//
+//Properties props = new Properties()
+//File f = file(rootProject.file("SocialUtilsConfig.properties"))
+//if (!f.exists()) {
+//    f = file(rootProject.file("gradle.properties"))
+//}
+//props.load(new FileInputStream(f))
+
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        consumerProguardFiles 'consumer-proguard-rules.pro'
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        manifestPlaceholders = [
+//                QQ_AUTHID: props['QQ_AUTHID'],
+//                QQ_APP_ID: props['QQ_APP_ID'],
+//                WECHAT_APP_ID: props['WECHAT_APP_ID'],
+//                WECHAT_APP_SECRET: props['WECHAT_APP_SECRET'],
+//                SINA_APP_ID: props['SINA_APP_ID'],
+//                SINA_APP_KEY: props['SINA_APP_KEY'],
+//                SINA_APP_SECRET: props['SINA_APP_SECRET'],
+//                SINA_REDIREC_URL: props['SINA_REDIREC_URL']
+//        ]
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    provided 'com.android.support:appcompat-v7:+'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.0.2'
+    testCompile 'junit:junit:4.12'
+}
