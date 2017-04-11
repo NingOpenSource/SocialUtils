@@ -1,9 +1,7 @@
 package org.ning.android.SocialUtils;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -14,9 +12,6 @@ import com.liulishuo.share.SlConfig;
 import com.liulishuo.share.SsoLoginManager;
 import com.liulishuo.share.SsoShareManager;
 import com.liulishuo.share.SsoUserInfoManager;
-import com.liulishuo.share.activity.SL_WeiBoHandlerActivity;
-import com.liulishuo.share.content.ShareContent;
-import com.liulishuo.share.type.SsoShareType;
 
 /**
  * Created by yanni on 2017/4/10.
@@ -61,38 +56,7 @@ public class SocialUtils{
      * 做了一些bug的兼容
      */
     public static class ShareManager extends SsoShareManager{
-        public static void share(@NonNull final Activity activity, @SsoShareType final String shareType,
-                                 @NonNull final ShareContent shareContent, @Nullable final ShareStateListener listener) {
-            SsoShareManager.share(activity, shareType, shareContent, new ShareStateListener(){
-                @Override
-                public void onSuccess() {
-                    super.onSuccess();
-                    if (listener!=null)listener.onSuccess();
-                }
 
-                @Override
-                public void onCancel() {
-                    super.onCancel();
-                    if (listener!=null)listener.onCancel();
-                }
-
-                @Override
-                public void onError(String msg) {
-                    super.onError(msg);
-                    if ("未安装微博".equals(msg)&&!isWeiBoInstalled(activity)){
-                        activity.startActivity(
-                                new Intent(activity, SL_WeiBoHandlerActivity.class)
-                                        .putExtra(KEY_CONTENT, shareContent)
-                                        .putExtra(ShareLoginSDK.KEY_IS_LOGIN_TYPE, false)
-                        );
-                        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                        return;
-                    }
-                    if (listener!=null)listener.onError(msg);
-                }
-            });
-
-        }
     }
 
     public static class UserInfoManager extends SsoUserInfoManager{
