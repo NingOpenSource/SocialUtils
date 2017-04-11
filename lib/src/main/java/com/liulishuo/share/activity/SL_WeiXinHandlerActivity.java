@@ -28,18 +28,18 @@ import com.tencent.mm.opensdk.modelmsg.WXMusicObject;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.ning.android.SocialUtils.activity.WeiXinHandlerActivity;
 
 /**
  * Created by echo on 5/19/15.
  * 用来处理微信登录、微信分享的activity。这里真不知道微信非要个activity干嘛，愚蠢的设计!
  * 参考文档: https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317853&lang=zh_CN
  */
-public class SL_WeiXinHandlerActivity extends Activity implements IWXAPIEventHandler {
+public class SL_WeiXinHandlerActivity extends WeiXinHandlerActivity {
 
     /**
      * BaseResp的getType函数获得的返回值。1:第三方授权， 2:分享
@@ -73,7 +73,7 @@ public class SL_WeiXinHandlerActivity extends Activity implements IWXAPIEventHan
     }
 
     @Override
-    public void onResp(BaseResp resp) {
+    public void onRespSL(BaseResp resp) {
         if (resp != null) {
             if (resp instanceof SendAuth.Resp && resp.getType() == TYPE_LOGIN) {
                 parseLoginResp(this, (SendAuth.Resp) resp, SsoLoginManager.listener);

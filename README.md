@@ -1,4 +1,7 @@
 #   ScialUtils
+
+[![](https://jitpack.io/v/NingOpenSource/SocialUtils.svg)](https://jitpack.io/#NingOpenSource/SocialUtils)
+
 fork from https://github.com/tianzhijiexian/ShareLoginLib
 
 

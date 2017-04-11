@@ -59,6 +59,10 @@ public class SocialUtils{
     public static class UserInfoManager extends SsoUserInfoManager{
 
     }
+
+    public static class WXPayManager extends SsoWXPayManager{
+
+    }
     ///////////////////////////////////////////////////////////////////////////
     // 判断第三方客户端是否安装
     ///////////////////////////////////////////////////////////////////////////
