@@ -48,7 +48,6 @@ public class SsoWXPayManager {
 
     public static void recycle() {
         listener = null;
-        SL_WeiXinHandlerActivity.payListener = null;
     }
 
     public static class PayListener {
