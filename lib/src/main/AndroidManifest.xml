@@ -111,7 +111,7 @@
             />
 
         <activity-alias
-            android:name="${applicationId}.wxapi.WXEntryActivity"
+            android:name="${SocialUtilsApplicationId}.wxapi.WXEntryActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:targetActivity="com.liulishuo.share.activity.SL_WeiXinHandlerActivity"
