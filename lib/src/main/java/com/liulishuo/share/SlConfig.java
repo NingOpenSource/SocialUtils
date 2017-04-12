@@ -19,6 +19,8 @@ public class SlConfig {
 
     public static String weiBoAppId;
 
+    public static String weiBoAppKey;
+
     public static String weiBoRedirectUrl;
 
     public static String weiBoScope;
@@ -55,7 +57,7 @@ public class SlConfig {
             return this;
         }
 
-        public Builder weiBo(@NonNull String weiBoAppId, @NonNull String redirectUrl, @NonNull String scope) {
+        public Builder weiBo(@NonNull String weiBoAppId,@NonNull String weiBoAppKey, @NonNull String redirectUrl, @NonNull String scope) {
             SlConfig.weiBoAppId = weiBoAppId;
             SlConfig.weiBoRedirectUrl = redirectUrl;
             SlConfig.weiBoScope = scope;

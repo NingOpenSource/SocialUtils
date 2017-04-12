@@ -29,7 +29,7 @@ public class SocialUtils{
                 .picTempFile(picTempFile) // 指定缓存缩略图的目录名字，如无特殊要求可以是null
                 .qq(META.QQ_APP_ID.getData(context), META.QQ_SCOPE.getData(context))
                 .weiXin(META.WECHAT_APP_ID.getData(context), META.WECHAT_APP_SECRET.getData(context))
-                .weiBo(META.SINA_APP_ID.getData(context), META.SINA_REDIREC_URL.getData(context), META.SINA_SCOPE.getData(context)).build();
+                .weiBo(META.SINA_APP_ID.getData(context),META.SINA_APP_KEY.getData(context), META.SINA_REDIREC_URL.getData(context), META.SINA_SCOPE.getData(context)).build();
         ShareLoginSDK.init(context, config);
     }
     /**

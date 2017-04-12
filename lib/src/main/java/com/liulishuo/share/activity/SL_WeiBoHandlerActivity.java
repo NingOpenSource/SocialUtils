@@ -58,16 +58,16 @@ public class SL_WeiBoHandlerActivity extends Activity implements IWeiboHandler.R
         super.onCreate(savedInstanceState);
         mIsLogin = getIntent().getBooleanExtra(ShareLoginSDK.KEY_IS_LOGIN_TYPE, true);
 
-        String appId = SlConfig.weiBoAppId;
-        if (TextUtils.isEmpty(appId)) {
-            throw new NullPointerException("请通过shareBlock初始化weiBoAppId");
+        String appKey = SlConfig.weiBoAppKey;
+        if (TextUtils.isEmpty(appKey)) {
+            throw new NullPointerException("请通过shareBlock初始化weiBoAppKey");
         }
 
         if (mIsLogin) {
             ssoHandler = new SsoHandler(this,
                     new AuthInfo(
                             getApplicationContext(),
-                            appId,
+                            SlConfig.weiBoAppKey,
                             SlConfig.weiBoRedirectUrl,
                             SlConfig.weiBoScope)
             );
@@ -79,7 +79,7 @@ public class SL_WeiBoHandlerActivity extends Activity implements IWeiboHandler.R
         } else {
             if (savedInstanceState == null) {
                 // 防止不保留活动情况下activity被重置后直接进行操作的情况
-                doShare(this, appId);
+                doShare(this, appKey);
             } else {
                 /*
                   当 Activity 被重新初始化时（该 Activity 处于后台时，可能会由于内存不足被杀掉了），
@@ -87,7 +87,7 @@ public class SL_WeiBoHandlerActivity extends Activity implements IWeiboHandler.R
                   执行成功，返回 true，并调用 {@link IWeiboHandler.Response#onResponse}；
                   失败返回 false，不调用上述回调
                  */
-                IWeiboShareAPI API = WeiboShareSDK.createWeiboAPI(getApplicationContext(), SlConfig.weiBoAppId);
+                IWeiboShareAPI API = WeiboShareSDK.createWeiboAPI(getApplicationContext(), SlConfig.weiBoAppKey);
                 boolean success = API.handleWeiboResponse(getIntent(), this);
             }
         }
@@ -129,7 +129,7 @@ public class SL_WeiBoHandlerActivity extends Activity implements IWeiboHandler.R
               来接收微博客户端返回的数据；执行成功，返回 true，并调用
               {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
              */
-            IWeiboShareAPI API = WeiboShareSDK.createWeiboAPI(getApplicationContext(), SlConfig.weiBoAppId);
+            IWeiboShareAPI API = WeiboShareSDK.createWeiboAPI(getApplicationContext(), SlConfig.weiBoAppKey);
             API.handleWeiboResponse(intent, this); // 当前应用唤起微博分享后，返回当前应用
         }
     }
@@ -234,7 +234,7 @@ public class SL_WeiBoHandlerActivity extends Activity implements IWeiboHandler.R
         finish();
     }
 
-    private void doShare(Activity activity, String appId) {
+    private void doShare(Activity activity, String appKey) {
         // 建立请求体
         SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
         request.transaction = String.valueOf(System.currentTimeMillis());// 用transaction唯一标识一个请求
@@ -244,7 +244,7 @@ public class SL_WeiBoHandlerActivity extends Activity implements IWeiboHandler.R
         }
         request.multiMessage = createShareObject(content);
 
-        IWeiboShareAPI api = WeiboShareSDK.createWeiboAPI(activity, appId);
+        IWeiboShareAPI api = WeiboShareSDK.createWeiboAPI(activity, appKey);
         api.registerApp();  // 将应用注册到微博客户端
         api.sendRequest(activity, request);
     }
