@@ -10,6 +10,7 @@ import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -33,10 +34,13 @@ public abstract class WeiXinHandlerActivity extends Activity implements IWXAPIEv
     @Override
     public final void onResp(BaseResp resp) {
         if (resp != null) {
-            if (resp instanceof SendAuth.Resp && resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-                parsePayResp(resp,SsoWXPayManager.listener);
-                finish();
-                return;
+            if (resp instanceof PayResp){
+                PayResp payResp= (PayResp) resp;
+                int type=payResp.getType();
+                if (type==ConstantsAPI.COMMAND_PAY_BY_WX){
+                    parsePayResp(payResp,SsoWXPayManager.listener);
+                    return;
+                }
             }
         }
         onRespSL(resp);
@@ -76,7 +80,7 @@ public abstract class WeiXinHandlerActivity extends Activity implements IWXAPIEv
      *     <tr><td>-2</td><td>用户取消	</td><td>无需处理。发生场景：用户不支付了，点击取消，返回APP。</td></tr>
      *</table>
      */
-    private void parsePayResp(BaseResp resp, SsoWXPayManager.PayListener listener) {
+    private void parsePayResp(PayResp resp, SsoWXPayManager.PayListener listener) {
         if (listener != null) {
             switch (resp.errCode) {
                 case 0:
