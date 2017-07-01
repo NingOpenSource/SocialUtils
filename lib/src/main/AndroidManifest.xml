@@ -117,6 +117,13 @@
             android:targetActivity="com.liulishuo.share.activity.SL_WeiXinHandlerActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             />
+        <activity-alias
+            android:name="${SocialUtilsApplicationId}.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:targetActivity="com.liulishuo.share.activity.SL_WeiXinHandlerActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            />
 
     </application>
 
