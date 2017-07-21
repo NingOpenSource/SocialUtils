@@ -49,7 +49,6 @@ public class SocialUtils{
     }
 
     public static class LoginManager extends SsoLoginManager{
-
     }
 
     /**

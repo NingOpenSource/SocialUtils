@@ -12,6 +12,7 @@ import com.liulishuo.share.activity.SL_WeiXinHandlerActivity;
 import com.liulishuo.share.type.SsoLoginType;
 
 import static com.liulishuo.share.type.SsoLoginType.QQ;
+import static com.liulishuo.share.type.SsoLoginType.QQ_UNION;
 import static com.liulishuo.share.type.SsoLoginType.WEIBO;
 import static com.liulishuo.share.type.SsoLoginType.WEIXIN;
 
@@ -35,6 +36,7 @@ public class SsoLoginManager {
             @Nullable LoginListener listener, @Nullable WXLoginRespListener weixinCodeRespListener) {
         SsoLoginManager.listener = listener;
         switch (type) {
+            case QQ_UNION:
             case QQ:
                 if (ShareLoginSDK.isQQInstalled(activity)) {
                     Intent intent = new Intent(activity, SL_QQHandlerActivity.class).putExtra(ShareLoginSDK.KEY_IS_LOGIN_TYPE, true);

@@ -10,8 +10,8 @@ import java.lang.annotation.RetentionPolicy;
  * @date 2016/3/30
  */
 @Retention(RetentionPolicy.SOURCE)
-@StringDef({SsoLoginType.WEIXIN, SsoLoginType.WEIBO, SsoLoginType.QQ})
+@StringDef({SsoLoginType.WEIXIN, SsoLoginType.WEIBO, SsoLoginType.QQ, SsoLoginType.QQ_UNION})
 public @interface SsoLoginType {
 
-    String QQ = "QQ", WEIBO = "WEIBO", WEIXIN = "WEIXIN";
+    String QQ = "QQ",QQ_UNION="QQ_UNION", WEIBO = "WEIBO", WEIXIN = "WEIXIN";
 }

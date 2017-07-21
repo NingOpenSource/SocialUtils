@@ -20,8 +20,11 @@ import org.json.JSONObject;
 public class SsoUserInfoManager {
 
     public static void getUserInfo(Context context, @SsoLoginType String type, @NonNull String accessToken, @NonNull String uid,
-            @Nullable final UserInfoListener listener) {
+                                   @Nullable final UserInfoListener listener) {
         switch (type) {
+            case SsoLoginType.QQ_UNION:
+                getQQUserInfo_union(context, accessToken, uid, listener);
+                break;
             case SsoLoginType.QQ:
                 getQQUserInfo(context, accessToken, uid, listener);
                 break;
@@ -44,7 +47,7 @@ public class SsoUserInfoManager {
      * @see "http://wiki.open.qq.com/wiki/website/get_simple_userinfo"
      */
     public static void getQQUserInfo(Context context, @NonNull final String accessToken, @NonNull final String userId,
-            @Nullable final UserInfoListener listener) {
+                                     @Nullable final UserInfoListener listener) {
 
         AsyncWeiboRunner runner = new AsyncWeiboRunner(context);
         WeiboParameters params = new WeiboParameters(null);
@@ -66,6 +69,54 @@ public class SsoUserInfoManager {
         });
     }
 
+    /**
+     * @param context
+     * @param accessToken
+     * @param userId
+     * @param listener
+     * @see "http://www.knowsky.com/1051353.html"
+     */
+    public static void getQQUserInfo_union(Context context, @NonNull final String accessToken, @NonNull final String userId,
+                                           @Nullable final UserInfoListener listener) {
+        getQQUserInfo(context, accessToken, userId, new UserInfoListener() {
+            @Override
+            public void onSuccess(@NonNull OAuthUserInfo userInfo) {
+                if (userInfo != null) {
+
+                    AsyncWeiboRunner runner = new AsyncWeiboRunner(context);
+                    WeiboParameters params = new WeiboParameters(null);
+                    params.put("access_token", accessToken);
+                    params.put("unionid", "1");
+                    /**
+                     * callback(
+                     {
+                     "client_id":"YOUR_APPID",
+                     "openid":"YOUR_OPENID",
+                     "unioid":"YOUR_UNIONID"
+                     }
+                     );
+                     */
+                    runner.requestAsync("https://graph.qq.com/oauth2.0/me", params, "GET", new UserInfoRequestListener(listener) {
+                        @Override
+                        OAuthUserInfo onSuccess(JSONObject jsonObj) throws JSONException {
+                            OAuthUserInfo userInfo = new OAuthUserInfo();
+                            String client_id = jsonObj.getString("client_id");
+                            String openid = jsonObj.getString("openid");
+                            String unioid=jsonObj.getString("unioid");
+                            userInfo.userId=unioid;
+                            return userInfo;
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onError(String msg) {
+                if (listener != null) listener.onError(msg);
+            }
+        });
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // 微博
     ///////////////////////////////////////////////////////////////////////////
@@ -76,7 +127,7 @@ public class SsoUserInfoManager {
      * @see "http://open.weibo.com/wiki/2/users/show"
      */
     public static void getWeiBoUserInfo(Context context, final @NonNull String accessToken, final @NonNull String uid,
-            @Nullable final UserInfoListener listener) {
+                                        @Nullable final UserInfoListener listener) {
 
         AsyncWeiboRunner runner = new AsyncWeiboRunner(context);
         WeiboParameters params = new WeiboParameters(null);
@@ -117,7 +168,7 @@ public class SsoUserInfoManager {
      * }
      */
     public static void getWeiXinUserInfo(Context context, @NonNull final String accessToken, @NonNull final String uid,
-            @Nullable final UserInfoListener listener) {
+                                         @Nullable final UserInfoListener listener) {
 
         AsyncWeiboRunner runner = new AsyncWeiboRunner(context);
         WeiboParameters params = new WeiboParameters(null);
